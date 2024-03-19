@@ -1,0 +1,59 @@
+header {
+    background-color:#66CCFF;
+    color:black;
+    text-align:center;
+    padding:5px;	 
+}
+header h2 {
+	color:black;
+}
+table, th, td {
+	border:2px solid black;
+	border-collapse:collapse;
+}
+th, td {
+	padding:5px;
+}
+nav {
+    background-color:#BCBCBC;
+    line-height:30px;
+    padding:5px;	      
+}
+section {
+    padding:10px;	 	 
+    overflow:scroll;
+}
+footer {
+    background-color:#66CCFF;
+    color:black;
+    clear:both;
+    text-align:center;
+    padding:5px;	 	 
+}
+.left {
+	float:left;
+	text-align:left;
+	width: 25%;
+}
+.central {
+	text-align:center;
+	width: 100%;
+	margin 0 auto;
+}
+.right {
+	float:right;
+	text-align:right;
+	width: 25%;
+}
+
+.dn {
+	width: 240px;
+}
+
+.comment {
+	width: 550px;
+}
+p.one {
+	word-spacing: 30px;
+	white-space: pre;
+}
