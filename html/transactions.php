@@ -14,7 +14,7 @@ require_once('DBC.php');
 require_once('Common.php');
 require_once('php/lang/LangVars-en.php');
 require_once('php/AjaxTableEditor.php');
-class Staff extends Common
+class Transactions extends Common
 {
 	var $Editor;
 	var $mateInstances = array('mate1_');
@@ -52,7 +52,7 @@ class Staff extends Common
 		echo $html;
 		
 		// Set default session configuration variables here
-		$defaultSessionData['orderByColumn'] = 'empNo';
+		$defaultSessionData['orderByColumn'] = 'id';
 
 		$defaultSessionData = base64_encode($this->Editor->jsonEncode($defaultSessionData));
 		
@@ -107,77 +107,74 @@ class Staff extends Common
 	
 	protected function initiateEditor()
 	{
-		$tableColumns['empNo'] = array(
-			'display_text' => 'EmpNo',
-			'perms' => 'VTXQ',
+		$tableColumns['id'] = array(
+			'display_text' => 'ID',
+			'perms' => 'EVCTXQ', 
+			'req' => true,
+			'hidden_add' => true,
+		);
+
+		$tableColumns['tdate'] = array(
+			'display_text' => 'Date', 
+			'perms' => 'EVCTAXQ', 
+			'req' => true,
+		);
+		
+		$tableColumns['amount'] = array(
+			'display_text' => 'Amount', 
+			'perms' => 'EVCTAXQ', 
+			'req' => true,
+			'table_cell_info' => 'type="number" style="text-align:right; padding-right:10px"',
+        );
+	
+		$tableColumns['account'] = array(
+			'display_text' => 'Account', 
+			'perms' => 'EVCTAXQ', 
+			'req' => true,
+			'join' => array(
+				'table' => 'accounts',
+				'column' => 'number',
+				'display_mask' => 'name',
+				'type' => 'left',
+			),
+        );
+	
+		$tableColumns['direction'] = array(
+			'display_text' => 'Direction', 
+			'perms' => 'EVCTAXQ', 
+			'req' => true,
+        );
+	
+		$tableColumns['description'] = array(
+			'display_text' => 'Description', 
+			'perms' => 'EVCTAXQ', 
+        );
+	
+		$tableColumns['chg_by'] = array(
+			'display_text' => 'chg_by', 
+			'perms' => 'VCTXQ', 
 			'hidden_add' => true,
 			'hidden_edit' => true,
-		);
-
-		$tableColumns['fname'] = array(
-			'display_text' => 'First Name', 
-			'perms' => 'EVCTAXQ', 
-			'req' => true,
-		);
-		
-		$tableColumns['lname'] = array(
-			'display_text' => 'Last Name', 
-			'perms' => 'EVCTAXQ', 
-			'req' => true,
-		);
-		
-		$tableColumns['email'] = array(
-			'display_text' => 'Email', 
-			'perms' => 'EVCTAXQ',
-			'req' => true,
-		);
-
-		$tableColumns['dept'] = array(
-			'display_text' => 'Dept', 
-			'perms' => 'EVCTAXQ',
-		);
-
-		$tableColumns['deptHead'] = array(
-            'display_text' => 'deptHead',
-            'perms' => 'EVCTAXQ',
-            'checkbox' => array(
-                'checked_value' => '1',
-                'un_checked_value' => '0',
-            ),
-            'default' => '0',
         );
 	
-		$tableColumns['groupLead'] = array(
-            'display_text' => 'groupLead',
-            'perms' => 'EVCTAXQ',
-            'checkbox' => array(
-                'checked_value' => '1',
-                'un_checked_value' => '0',
-            ),
-            'default' => '0',
+		$tableColumns['chg_date'] = array(
+			'display_text' => 'chg_date', 
+			'perms' => 'VCTXQ', 
+			'hidden_add' => true,
+			'hidden_edit' => true,
         );
 	
-		$tableColumns['teamLead'] = array(
-            'display_text' => 'teamLead',
-            'perms' => 'EVCTAXQ',
-            'checkbox' => array(
-                'checked_value' => '1',
-                'un_checked_value' => '0',
-            ),
-            'default' => '0',
-        );
-	
-		$tableName = 'employee';
-		$primaryCol = 'empNo';
+		$tableName = 'transactions';
+		$primaryCol = 'id';
 		$errorFun = array(&$this,'logError');
 		$permissions = 'EAVDQCSXHOM';
 		
 		$this->Editor = new AjaxTableEditor($tableName,$primaryCol,$errorFun,$permissions,$tableColumns);
 		$this->Editor->setConfig('tableInfo','cellpadding="1" cellspacing="1" align="center" width="1100" class="mateTable"');
-		$this->Editor->setConfig('orderByColumn','empNo');
-		$this->Editor->setConfig('tableTitle','Employes<div style="font-size: 12px; font-weight: normal;"></div>');
-		$this->Editor->setConfig('addRowTitle','Add Employee<div style="font-size: 12px; font-weight: normal;"></div>');
-		$this->Editor->setConfig('editRowTitle','Edit Employee<div style="font-size: 12px; font-weight: normal;"></div>');
+		$this->Editor->setConfig('orderByColumn','id');
+		$this->Editor->setConfig('tableTitle','Transactions<div style="font-size: 12px; font-weight: normal;"></div>');
+		$this->Editor->setConfig('addRowTitle','Add Transaction<div style="font-size: 12px; font-weight: normal;"></div>');
+		$this->Editor->setConfig('editRowTitle','Edit Transaction<div style="font-size: 12px; font-weight: normal;"></div>');
 		$this->Editor->setConfig('addScreenFun',array(&$this,'autoCompleteCallback'));
 		$this->Editor->setConfig('editScreenFun',array(&$this,'autoCompleteCallback'));
 		$this->Editor->setConfig('editInPlaceFun',array(&$this,'autoCompleteInPlace'));
@@ -233,5 +230,5 @@ class Staff extends Common
 		}
 	}
 }
-$page = new Staff();
+$page = new Transactions();
 ?>

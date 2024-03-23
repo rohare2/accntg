@@ -3,10 +3,14 @@
 
 DIR= /var/www/html/accntg
 
-FILES= Common.php \
+FILES= accounts.php \
+	Common.php \
+	DBC.php \
 	employee.php \
 	index.html \
+	payrate.php \
 	styles.css \
+	transactions.php \
 	welcome.jpg
 
 PRIVATE_FILES= DBC.php

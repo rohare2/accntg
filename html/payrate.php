@@ -14,7 +14,7 @@ require_once('DBC.php');
 require_once('Common.php');
 require_once('php/lang/LangVars-en.php');
 require_once('php/AjaxTableEditor.php');
-class Staff extends Common
+class Payrate extends Common
 {
 	var $Editor;
 	var $mateInstances = array('mate1_');
@@ -52,7 +52,7 @@ class Staff extends Common
 		echo $html;
 		
 		// Set default session configuration variables here
-		$defaultSessionData['orderByColumn'] = 'empNo';
+		$defaultSessionData['orderByColumn'] = 'fullname';
 
 		$defaultSessionData = base64_encode($this->Editor->jsonEncode($defaultSessionData));
 		
@@ -107,77 +107,37 @@ class Staff extends Common
 	
 	protected function initiateEditor()
 	{
-		$tableColumns['empNo'] = array(
+		$tableColumns['empno'] = array(
 			'display_text' => 'EmpNo',
-			'perms' => 'VTXQ',
-			'hidden_add' => true,
-			'hidden_edit' => true,
+			'perms' => 'EVCTAXQ',
+			'select_query' => "SELECT empno, concat(lname,', ',fname) from employee order by lname",
+			'join' => array(
+                'table' => 'employee',
+                'column' => 'empNo',
+                'display_mask' => "concat(emp.lname,', ',emp.fname)",
+                'alias' => 'emp',
+                'type' => 'left',
+            ),
 		);
 
-		$tableColumns['fname'] = array(
-			'display_text' => 'First Name', 
+		$tableColumns['rate'] = array(
+			'display_text' => 'Payrate', 
 			'perms' => 'EVCTAXQ', 
 			'req' => true,
+			'table_cell_info' => 'type="number" style="text-align:right; padding-right:10px"',
 		);
 		
-		$tableColumns['lname'] = array(
-			'display_text' => 'Last Name', 
-			'perms' => 'EVCTAXQ', 
-			'req' => true,
-		);
-		
-		$tableColumns['email'] = array(
-			'display_text' => 'Email', 
-			'perms' => 'EVCTAXQ',
-			'req' => true,
-		);
-
-		$tableColumns['dept'] = array(
-			'display_text' => 'Dept', 
-			'perms' => 'EVCTAXQ',
-		);
-
-		$tableColumns['deptHead'] = array(
-            'display_text' => 'deptHead',
-            'perms' => 'EVCTAXQ',
-            'checkbox' => array(
-                'checked_value' => '1',
-                'un_checked_value' => '0',
-            ),
-            'default' => '0',
-        );
-	
-		$tableColumns['groupLead'] = array(
-            'display_text' => 'groupLead',
-            'perms' => 'EVCTAXQ',
-            'checkbox' => array(
-                'checked_value' => '1',
-                'un_checked_value' => '0',
-            ),
-            'default' => '0',
-        );
-	
-		$tableColumns['teamLead'] = array(
-            'display_text' => 'teamLead',
-            'perms' => 'EVCTAXQ',
-            'checkbox' => array(
-                'checked_value' => '1',
-                'un_checked_value' => '0',
-            ),
-            'default' => '0',
-        );
-	
-		$tableName = 'employee';
+		$tableName = 'payrate';
 		$primaryCol = 'empNo';
 		$errorFun = array(&$this,'logError');
 		$permissions = 'EAVDQCSXHOM';
 		
 		$this->Editor = new AjaxTableEditor($tableName,$primaryCol,$errorFun,$permissions,$tableColumns);
 		$this->Editor->setConfig('tableInfo','cellpadding="1" cellspacing="1" align="center" width="1100" class="mateTable"');
-		$this->Editor->setConfig('orderByColumn','empNo');
-		$this->Editor->setConfig('tableTitle','Employes<div style="font-size: 12px; font-weight: normal;"></div>');
-		$this->Editor->setConfig('addRowTitle','Add Employee<div style="font-size: 12px; font-weight: normal;"></div>');
-		$this->Editor->setConfig('editRowTitle','Edit Employee<div style="font-size: 12px; font-weight: normal;"></div>');
+		$this->Editor->setConfig('orderByColumn','empno');
+		$this->Editor->setConfig('tableTitle','Pay Rate<div style="font-size: 12px; font-weight: normal;"></div>');
+		$this->Editor->setConfig('addRowTitle','Add Rate Entry<div style="font-size: 12px; font-weight: normal;"></div>');
+		$this->Editor->setConfig('editRowTitle','Edit Rate Entry<div style="font-size: 12px; font-weight: normal;"></div>');
 		$this->Editor->setConfig('addScreenFun',array(&$this,'autoCompleteCallback'));
 		$this->Editor->setConfig('editScreenFun',array(&$this,'autoCompleteCallback'));
 		$this->Editor->setConfig('editInPlaceFun',array(&$this,'autoCompleteInPlace'));
@@ -233,5 +193,5 @@ class Staff extends Common
 		}
 	}
 }
-$page = new Staff();
+$page = new Payrate();
 ?>
