@@ -1,173 +1,233 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-	<title>Accntg</title >
+	<title>Accntg</title>
 	<link rel="stylesheet" href="styles.css">
-</head>
 
+	<style>
+	.item1 { grid-area: header; }
+	.item2 { grid-area: menu; }
+	.item3 { grid-area: main; }
+	.item4 { grid-area: right; }
+	.item5 { grid-area: footer; }
+
+	.grid-container {
+	  display: grid;
+	  grid-template-areas:
+		'header header header header header header'
+		'menu main right right right right'
+		'footer footer footer footer footer footer';
+	  gap: 10px;
+	  background-color: #2196F3;
+	  padding: 10px;
+	}
+
+	.grid-container > div {
+	  background-color: rgba(255, 255, 255, 0.8);
+	  text-align: center;
+	  padding: 16px 0;
+	  font-size: 16px;
+	}
+	</style>
+</head>
 <body>
 
-<header style="background-color:#66CCFF";>
-<div class="left">&nbsp</div>
-<div class="right">&nbsp</div>
-<div class="center">
-	<h1><a id="top">Accounting</a></h1><hr>
+<div class="grid-container">
+  <div class="item1"><h2>Accounting</h2></div>
+  <div class="item2" style="text-align: left";>
+  <h3>Employees:</h3>
+	<ul style="list-style-type:none">
+		<li><a href="employee.php">Employee</a></li>
+		<li><a href="payrole.php">Payrole</a></li>
+		<li><a href="payrate.php">Payrate</a></li>
+	</ul>
+  <h3>Accounting:</h3>
+	<ul style="list-style-type:none">
+		<li><a href="accounts.php">Accounts</a></li>
+		<li><a href="journal.php">Journal</a></li>
+	</ul>
+  </div>
+  <div class="item3" style="text-align: left";>
+	<table>
+	<h3>Accounting math</h3>
+		<tr>
+			<th>Accounting system</th>
+			<th>To Increase</th>
+			<th>To Decrease</th>
+		</tr>
+		<tr>
+			<td>Asset</td>
+			<td>Debit</td>
+			<td>Credit</td>
+		</tr>
+		<tr>
+			<td>Liability</td>
+			<td>Credit</td>
+			<td>Debit</td>
+		</tr>
+		<tr>
+			<td>Capital investment</td>
+			<td>Credit</td>
+			<td>Debit</td>
+		</tr>
+		<tr>
+			<td>Capital withdrawl</td>
+			<td>Debit</td>
+			<td>Credit</td>
+		</tr>
+		<tr>
+			<td>Income</td>
+			<td>Credit</td>
+			<td>Debit</td>
+		</tr>
+		<tr>
+			<td>Expense</td>
+			<td>Debit</td>
+			<td>Credit</td>
+		</tr>
+	</table>
+	<br>
+	<h3>Account numbering system</h3>
+	<table>
+		<tr>
+			<th>Name</th>
+			<th>Number</th>
+			<th>Normal</th>
+		</tr>
+		<tr>
+			<td>Assets</td>
+			<td>100</td>
+			<td>1</td>
+		</tr>
+		<tr>
+			<td>Cash</td>
+			<td>110</td>
+			<td>1</td>
+		</tr>
+		<tr>
+			<td>Merchandise</td>
+			<td>120</td>
+			<td>1</td>
+		</tr>
+		<tr>
+		   <td>Liabilities</td>
+			<td>200</td>
+			<td>-1</td>
+		</tr>
+		<tr>
+			<td>Deferred Revenue</td>
+			<td>210</td>
+			<td>-1</td>
+		</tr>
+		<tr>
+			<td>Revenues</td>
+			<td>300</td>
+			<td>-1</td>
+		</tr>
+		<tr>
+			<td>Expenses</td>
+			<td>400</td>
+			<td>1</td>
+		</tr>
+		<tr>
+			<td>Cost of Goods Sold</td>
+			<td>410</td>
+			<td>1</td>
+		</tr>
+		<tr>
+			<td>Equity</td>
+			<td>500</td>
+			<td>-1</td>
+		</tr>
+		<tr>
+			<td>Equity</td>
+			<td>500</td>
+			<td>-1</td>
+		</tr>
+		<tr>
+			<td>Capital</td>
+			<td>510</td>
+			<td>-1</td>
+		</tr>
+	</table>
+  </div>
+  <div class="item4" style="text-align: left";>
+   <p>Debits and credits should sum to 0. We can verify this like so:</p>
+   <pre>
+   1 select
+   2 sum(direction * amount)
+   3 from transactions;
+   </pre>
+   <p>Find transactions where debits don't match credits:</p>
+   <pre>
+   1 select
+   2   id,
+   3   sum(direction * amount) as s
+   4 from
+   5   transactions
+   6 group by
+   7   id
+   8 having
+   9   s != 0;
+   </pre>
+   <p>Putting together a balance sheet is easy:</p>
+   <pre>
+   1 select
+   2   (account) as a,
+   3   name,
+   4   sum(amount * direction * normal) as balance
+   5 from
+   6   transactions
+   7   left join accounts on a = accounts.number
+   8 group by
+   9   name
+   10 order by
+   11   a,
+   12   name;
+   </pre>
+   <p>Here is a report with sub-accounts rolled into the main account:</p>
+   <pre>
+   1 select
+   2   ((account / 100) * 100) as a,
+   3   name,
+   4   sum(amount * direction * normal) as balance
+   5 from
+   6   transactions
+   7   left join accounts on a = accounts.number
+   8 group by
+   9   name
+   10 order by
+   11   a,
+   12   name;
+   </pre>
+   <p>Display all transactions in a human readable way:</p>
+   <pre>
+   1  select
+   2    id,
+   3    date,
+   4    name,
+   5    case when direction = 1 then amount end as DR,
+   6    case when direction = -1 then amount end as CR
+   7  from
+   8    transactions
+   9    left join accounts on account = account.number
+   10 order by
+   11   id,
+   12   date,
+   13   CR,
+   14   DR;
+   </pre>
+  </div>
+  <div class="item5">
+  <footer>
+	<div class="left">&nbsp</div>
+	<div class="right">
+		<a href="../">Back</a>&nbsp&nbsp<a href="http://www/">Home</a>
+	</div>
+	<div class="central">Accounting</div>
+  </footer>
+  </div>
 </div>
-</header>
-
-<nav style="float:left;width:15%">
-<h3>Employees & Staff:</h3>
-<ul style="list-style-type:none;line-height:140%">
-	<li><a href="employee.php">Employee</a></li>
-	<li><a href="payrate.php">Payrate</a></li>
-	<li><a href="payroll.php">Payrole</a></li>
-</ul>
-
-<h3>Projects & Tasks:</h3>
-<ul style="list-style-type:none;line-height:140%">
-	<li><a href="accounts.php">Accounts</a></li>
-	<li><a href="project.php">Projects</a></li>
-	<li><a href="pt.php">Project Tasks (P/T)</a></li>
-	<li><a href="project_support.php">Project Support</a></li>
-	<li><a href="transactions.php">Journal</a></li>
-</ul>
-
-<h3>Inventory:</h3>
-<ul style="list-style-type:none;line-height:140%">
-	<li><a href="hardware.php">Hardware</a></li>
-	<li><a href="software.php">Software</a></li>
-</ul>
-
-<h3>Support Cost:</h3>
-<ul style="list-style-type:none;line-height:140%">
-	<li><a href="vendor_support.php">Vendor Support</a></li>
-	<li><a href="hardware_rates.php">HW Maint Rates</a></li>
-	<li><a href="software_rates.php">SW Maint Rates</a></li>
-</ul>
-
-<h3>Contacts</h3>
-<ul style="list-style-type:none;line-height:140%">
-	<li><a href="vendor.php">Vendors</a></li>
-	<li><a href="contact.php">Contacts</a></li>
-</ul>
-
-<h3><li><a href="history/index.html">History</a></li></h3>
-
-</nav>
-
-<section>
-<table>
-<h3>Accounting math</h3>
-    <tr>
-        <th>Accounting system</th>
-        <th>To Increase</th>
-        <th>To Decrease</th>
-    </tr>
-    <tr>
-        <td>Asset</td>
-        <td>Debit</td>
-        <td>Credit</td>
-    </tr>
-    <tr>
-        <td>Liability</td>
-        <td>Credit</td>
-        <td>Debit</td>
-    </tr>
-    <tr>
-        <td>Capital investment</td>
-        <td>Credit</td>
-        <td>Debit</td>
-    </tr>
-    <tr>
-        <td>Capital withdrawl</td>
-        <td>Debit</td>
-        <td>Credit</td>
-    </tr>
-    <tr>
-        <td>Income</td>
-        <td>Credit</td>
-        <td>Debit</td>
-    </tr>
-    <tr>
-        <td>Expense</td>
-        <td>Debit</td>
-        <td>Credit</td>
-    </tr>
-</table>
-<br>
-<h3>Account numbering system</h3>
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Number</th>
-        <th>Normal</th>
-    </tr>
-    <tr>
-        <td>Assets</td>
-        <td>100</td>
-        <td>1</td>
-    </tr>
-    <tr>
-        <td>Cash</td>
-        <td>110</td>
-        <td>1</td>
-    </tr>
-    <tr>
-        <td>Merchandise</td>
-        <td>120</td>
-        <td>1</td>
-    </tr>
-    <tr>
-       <td>Liabilities</td>
-        <td>200</td>
-        <td>-1</td>
-    </tr>
-    <tr>
-        <td>Deferred Revenue</td>
-        <td>210</td>
-        <td>-1</td>
-    </tr>
-    <tr>
-        <td>Revenues</td>
-        <td>300</td>
-        <td>-1</td>
-    </tr>
-    <tr>
-        <td>Expenses</td>
-        <td>400</td>
-        <td>1</td>
-    </tr>
-    <tr>
-        <td>Cost of Goods Sold</td>
-        <td>410</td>
-        <td>1</td>
-    </tr>
-    <tr>
-        <td>Equity</td>
-        <td>500</td>
-        <td>-1</td>
-    </tr>
-    <tr>
-        <td>Equity</td>
-        <td>500</td>
-        <td>-1</td>
-    </tr>
-    <tr>
-        <td>Capital</td>
-        <td>510</td>
-        <td>-1</td>
-    </tr>
-</table>
-</section>
-
-<footer>
-<div class="left">
- <address id="email">Webmaster <a href="mailto: rohare2@gmail.com">Rich O'Hare</a></address>
-</div>
-<div class="right"><a href="../">Back</a>&nbsp&nbsp<a href="http://www/">Home</a></div>
-<div class="central">Accounting Home</div>
-</footer>
-
 </body>
 </html>
+

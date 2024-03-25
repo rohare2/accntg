@@ -8,9 +8,9 @@ FILES= accounts.php \
 	DBC.php \
 	employee.php \
 	index.html \
+	journal.php \
 	payrate.php \
 	styles.css \
-	transactions.php \
 	welcome.jpg
 
 PRIVATE_FILES= DBC.php

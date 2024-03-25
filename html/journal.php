@@ -172,7 +172,7 @@ class Transactions extends Common
 		$this->Editor = new AjaxTableEditor($tableName,$primaryCol,$errorFun,$permissions,$tableColumns);
 		$this->Editor->setConfig('tableInfo','cellpadding="1" cellspacing="1" align="center" width="1100" class="mateTable"');
 		$this->Editor->setConfig('orderByColumn','id');
-		$this->Editor->setConfig('tableTitle','Transactions<div style="font-size: 12px; font-weight: normal;"></div>');
+		$this->Editor->setConfig('tableTitle','Journal Transactions<div style="font-size: 12px; font-weight: normal;"></div>');
 		$this->Editor->setConfig('addRowTitle','Add Transaction<div style="font-size: 12px; font-weight: normal;"></div>');
 		$this->Editor->setConfig('editRowTitle','Edit Transaction<div style="font-size: 12px; font-weight: normal;"></div>');
 		$this->Editor->setConfig('addScreenFun',array(&$this,'autoCompleteCallback'));
