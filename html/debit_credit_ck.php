@@ -14,7 +14,7 @@ require_once('DBC.php');
 require_once('Common.php');
 require_once('php/lang/LangVars-en.php');
 require_once('php/AjaxTableEditor.php');
-class Transactions extends Common
+class DebitCreditCk extends Common
 {
 	var $Editor;
 	var $mateInstances = array('mate1_');
@@ -52,7 +52,7 @@ class Transactions extends Common
 		echo $html;
 		
 		// Set default session configuration variables here
-		$defaultSessionData['orderByColumn'] = 'id';
+		$defaultSessionData['orderByColumn'] = 'trans';
 
 		$defaultSessionData = base64_encode($this->Editor->jsonEncode($defaultSessionData));
 		
@@ -107,79 +107,25 @@ class Transactions extends Common
 	
 	protected function initiateEditor()
 	{
-		$tableColumns['id'] = array(
-			'display_text' => 'ID',
-			'perms' => 'VTXQ', 
-			'hidden_add' => true,
-			'hidden_edit' => true,
-		);
-
 		$tableColumns['trans'] = array(
-			'display_text' => 'Trans', 
-			'perms' => 'EVCTAXQ', 
-			'req' => true,
-			'hidden_add' => true,
+			'display_text' => 'Trans',
+			'perms' => 'VTXQ', 
 		);
 
-		$tableColumns['tdate'] = array(
-			'display_text' => 'Date', 
-			'perms' => 'EVCTAXQ', 
-			'req' => true,
+		$tableColumns['s'] = array(
+			'display_text' => 'Sum', 
+			'perms' => 'VCTXQ', 
 		);
-		
-		$tableColumns['amount'] = array(
-			'display_text' => 'Amount', 
-			'perms' => 'EVCTAXQ', 
-			'req' => true,
-			'table_cell_info' => 'type="number" style="text-align:right; padding-right:10px"',
-        );
-	
-		$tableColumns['account'] = array(
-			'display_text' => 'Account', 
-			'perms' => 'EVCTAXQ', 
-			'req' => true,
-			'join' => array(
-				'table' => 'accounts',
-				'column' => 'number',
-				'display_mask' => 'name',
-				'type' => 'left',
-			),
-        );
-	
-		$tableColumns['direction'] = array(
-			'display_text' => 'Direction', 
-			'perms' => 'EVCTAXQ', 
-			'req' => true,
-        );
-	
-		$tableColumns['description'] = array(
-			'display_text' => 'Description', 
-			'perms' => 'EVCTAXQ', 
-        );
-	
-		$tableColumns['chg_by'] = array(
-			'display_text' => 'chg_by', 
-			'perms' => 'VCTXQ', 
-			'hidden_add' => true,
-			'hidden_edit' => true,
-        );
-	
-		$tableColumns['chg_date'] = array(
-			'display_text' => 'chg_date', 
-			'perms' => 'VCTXQ', 
-			'hidden_add' => true,
-			'hidden_edit' => true,
-        );
-	
-		$tableName = 'transactions';
-		$primaryCol = 'id';
+
+		$tableName = 'debit_credit_ck';
+		$primaryCol = 'trans';
 		$errorFun = array(&$this,'logError');
-		$permissions = 'EAVDQCSXHOM';
+		$permissions = 'QSXHOM';
 		
 		$this->Editor = new AjaxTableEditor($tableName,$primaryCol,$errorFun,$permissions,$tableColumns);
 		$this->Editor->setConfig('tableInfo','cellpadding="1" cellspacing="1" align="center" width="1100" class="mateTable"');
-		$this->Editor->setConfig('orderByColumn','id');
-		$this->Editor->setConfig('tableTitle','Transaction Journal<div style="font-size: 12px; font-weight: normal;"></div>');
+		$this->Editor->setConfig('orderByColumn','trans');
+		$this->Editor->setConfig('tableTitle','Debit/Credit Check<div style="font-size: 12px; font-weight: normal;"></div>');
 		$this->Editor->setConfig('addRowTitle','Add Transaction<div style="font-size: 12px; font-weight: normal;"></div>');
 		$this->Editor->setConfig('editRowTitle','Edit Transaction<div style="font-size: 12px; font-weight: normal;"></div>');
 		$this->Editor->setConfig('addScreenFun',array(&$this,'autoCompleteCallback'));
@@ -237,5 +183,5 @@ class Transactions extends Common
 		}
 	}
 }
-$page = new Transactions();
+$page = new DebitCreditCk();
 ?>

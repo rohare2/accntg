@@ -5,10 +5,13 @@ DIR= /var/www/html/accntg
 
 FILES= accounts.php \
 	Common.php \
+	balance_sheet.php \
 	DBC.php \
+	debit_credit_ck.php \
 	employee.php \
 	index.html \
 	journal.php \
+	ledger.php \
 	payrate.php \
 	styles.css \
 	welcome.jpg

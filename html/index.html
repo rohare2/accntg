@@ -45,6 +45,9 @@
 	<ul style="list-style-type:none">
 		<li><a href="accounts.php">Accounts</a></li>
 		<li><a href="journal.php">Journal</a></li>
+		<li><a href="balance_sheet.php">Balance Sheet</a></li>
+		<li><a href="ledger.php">Ledger</a></li>
+		<li><a href="debit_credit_ck.php">Debit/credit Ck</a></li>
 	</ul>
   </div>
   <div class="item3" style="text-align: left";>
@@ -161,44 +164,43 @@
    <p>Find transactions where debits don't match credits:</p>
    <pre>
    1 select
-   2   id,
+   2   trans,
    3   sum(direction * amount) as s
    4 from
    5   transactions
    6 group by
-   7   id
+   7   trans
    8 having
    9   s != 0;
    </pre>
-   <p>Putting together a balance sheet is easy:</p>
+   <p>Putting together a balance view:</p>
    <pre>
    1 select
    2   (account) as a,
    3   name,
    4   sum(amount * direction * normal) as balance
    5 from
-   6   transactions
-   7   left join accounts on a = accounts.number
+   6   transactions t
+   7   left join accounts on t.account = accounts.number
    8 group by
-   9   name
+   9   a
    10 order by
-   11   a,
-   12   name;
+   11   a;
    </pre>
-   <p>Here is a report with sub-accounts rolled into the main account:</p>
+   <p>Here is a balance sheet for primary accounts:</p>
    <pre>
    1 select
-   2   ((account / 100) * 100) as a,
+   2   (account - (account % 100)) as a,
    3   name,
    4   sum(amount * direction * normal) as balance
    5 from
-   6   transactions
-   7   left join accounts on a = accounts.number
+   6   transactions t
+   7   left join accounts on (t.account - (t.account % 100)) = accounts.number
    8 group by
-   9   name
-   10 order by
-   11   a,
-   12   name;
+   9   a,
+   10  name;
+   11 order by
+   12   a;
    </pre>
    <p>Display all transactions in a human readable way:</p>
    <pre>
