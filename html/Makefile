@@ -13,8 +13,7 @@ FILES= accounts.php \
 	journal.php \
 	ledger.php \
 	payrate.php \
-	styles.css \
-	welcome.jpg
+	styles.css
 
 PRIVATE_FILES= DBC.php
 
