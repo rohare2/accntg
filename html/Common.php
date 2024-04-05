@@ -37,7 +37,7 @@ class Common
 		"http://www.w3.org/TR/html4/loose.dtd">
 		<html>
 		<head>
-		<title>IT Ops</title>
+		<title>Accntg</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<link href="css/table_styles.css" rel="stylesheet" type="text/css" />
 		<link href="css/icon_styles.css" rel="stylesheet" type="text/css" />

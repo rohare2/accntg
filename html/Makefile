@@ -10,10 +10,12 @@ FILES= accounts.php \
 	debit_credit_ck.php \
 	employee.php \
 	index.html \
-	journal.php \
 	ledger.php \
 	payrate.php \
-	styles.css
+	styles.css \
+	transactions.php \
+	time_card.php \
+	php_test.php
 
 PRIVATE_FILES= DBC.php
 

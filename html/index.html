@@ -44,10 +44,12 @@
   <h3>Accounting:</h3>
 	<ul style="list-style-type:none">
 		<li><a href="accounts.php">Accounts</a></li>
-		<li><a href="journal.php">Journal</a></li>
+		<li><a href="transactions.php">Transactions</a></li>
 		<li><a href="balance_sheet.php">Balance Sheet</a></li>
 		<li><a href="ledger.php">Ledger</a></li>
 		<li><a href="debit_credit_ck.php">Debit/credit Ck</a></li>
+		<li><a href="time_card.php">Time Card</a></li>
+		<li><a href="php_test.php">PHP test</a></li>
 	</ul>
   </div>
   <div class="item3" style="text-align: left";>
@@ -143,11 +145,6 @@
 			<td>-1</td>
 		</tr>
 		<tr>
-			<td>Equity</td>
-			<td>500</td>
-			<td>-1</td>
-		</tr>
-		<tr>
 			<td>Capital</td>
 			<td>510</td>
 			<td>-1</td>
@@ -205,8 +202,8 @@
    <p>Display all transactions in a human readable way:</p>
    <pre>
    1  select
-   2    id,
-   3    date,
+   2    trans,
+   3    tdate,
    4    name,
    5    case when direction = 1 then amount end as DR,
    6    case when direction = -1 then amount end as CR
@@ -214,10 +211,8 @@
    8    transactions
    9    left join accounts on account = account.number
    10 order by
-   11   id,
-   12   date,
-   13   CR,
-   14   DR;
+   11   trans,
+   13   CR;
    </pre>
   </div>
   <div class="item5">

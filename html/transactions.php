@@ -116,15 +116,19 @@ class Transactions extends Common
 
 		$tableColumns['trans'] = array(
 			'display_text' => 'Trans', 
-			'perms' => 'EVCTAXQ', 
-			'req' => true,
-			'hidden_add' => true,
+			'perms' => 'EVCTXQS', 
 		);
 
 		$tableColumns['tdate'] = array(
 			'display_text' => 'Date', 
-			'perms' => 'EVCTAXQ', 
-			'req' => true,
+			'perms' => 'EVCTAXQS', 
+			'req' => false,
+			'display_mask' => 'date_format(tdate,"%d %M %Y")',
+			'order_mask' => 'date_format(tdate,"%Y %m %d")',
+			'calendar' => array(
+				'js_format' => 'dd MM yy',
+				'options' => array('showButtonPanel' => true)),
+				'col_header_info' => 'style="width: 180px;"',
 		);
 		
 		$tableColumns['amount'] = array(
@@ -136,20 +140,20 @@ class Transactions extends Common
 	
 		$tableColumns['account'] = array(
 			'display_text' => 'Account', 
-			'perms' => 'EVCTAXQ', 
+			'perms' => 'EVCTAXQS', 
 			'req' => true,
-			'join' => array(
-				'table' => 'accounts',
-				'column' => 'number',
-				'display_mask' => 'name',
-				'type' => 'left',
-			),
+			'select_query' => "select number, name from accounts",
         );
 	
 		$tableColumns['direction'] = array(
-			'display_text' => 'Direction', 
+			'display_text' => 'Direction [1],-1', 
 			'perms' => 'EVCTAXQ', 
-			'req' => true,
+			'req' => false,
+			'checkbox' => array(
+				'checked_value' => '1',
+				'un_checked_value' => '-1',
+			),
+			'default' => '1',
         );
 	
 		$tableColumns['description'] = array(
