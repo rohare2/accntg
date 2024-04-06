@@ -1,17 +1,62 @@
 <!DOCTYPE html>
 <html>
+<head>
+	<style>
+	.error {color: #FF0000;}
+
+	.item1 { grid-area: header }
+	.item2 { grid-area: left }
+	.item3 { grid-area: center }
+	.item4 { grid-area: right }
+	.item5 { grid-area: table }
+	.item6 { grid-area: total }
+	.item7 { grid-area: footer }
+
+	.grid-container {
+		display: grid;
+		grid-template-areas:
+			'header header header header header header'
+			'left center center center center right'
+			'table table table table table total'
+			'footer footer footer footer footer footer';
+		gap: 10px;
+		background-color: #2196F3;
+		padding: 10px;
+	}
+
+	.grid-container > div {
+		background-color: rgba(255, 255, 255, 0.8);
+		text-align: center;
+		padding: 16px 0;
+		font-size: 16px;
+	}
+	</style>
+</head>
 <body>
 
 <?php
 // define variables and set to empty values
-$name = $email = $comment = $gender = "";
+$nameErr = $empidErr = "";
+$name = $empid = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = test_input($_REQUEST['name']);
-    $email = test_input($_REQUEST['email']);
-    $website = test_input($_REQUEST['website']);
-    $comment = test_input($_REQUEST['comment']);
-    $gender = test_input($_REQUEST['gender']);
+	if (empty($_POST['name'])) {
+		$nameErr = "Name is required";
+	} else {
+    	$name = test_input($_POST['name']);
+		if (!preg_match("/^[a-zA-Z-' ]*$/",$name)) {
+			$nameErr = "Only letters and white space allowed";
+		}
+	}
+
+	if (empty($_POST['empid'])) {
+		$empidErr = "Employee ID is required";
+	} else {
+    	$empid = test_input($_POST['empid']);
+		if (!preg_match("/^[0-9]*$/",$empid)) {
+			$empidErr = "Only numbers allowed";
+		}
+	}
 }
 
 function test_input($data) {
@@ -22,28 +67,30 @@ function test_input($data) {
 }
 ?>
 
-<h2>PHP Form Validation Example</h2>
-<form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
-  Name: <input type="text" name="name"><br>
-  E-mail: <input type="text" name="email"><br>
-  Website: <input type="text" name="website"><br>
-  Comment: <textarea name="comment" rows="5" cols="48"></textarea><br>
-  Gender:
-  <input type="radio" name="gender" value="female">Female
-  <input type="radio" name="gender" value="male">Male
-  <input type="radio" name="gender" value="other">Other
-  <br><br>
-  <input type="submit" name="submit" value="Submit">
-</form>
+<div class="grid-container">
+	<div class="item1"><h2>Weekly Time Card</h2></div>
+	<div class="item2" style="text-align: left";>
+		<p><span class="error">* required field</span></p>
+		<form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+		  Name: <input type="text" name="name" value="<?php echo $name;?>">
+		  <span class="error">* <?php echo $nameErr;?></span>
+		  <br><br>
+
+		  Emplyee ID: <input type="text" name="empid" value="<?php echo $empid;?>">
+		  <span class="error">* <?php echo $empidErr;?></span>
+		  <br><br>
+	</div>
+	<div class=item7>
+		  <input type="submit" name="submit" value="Submit">
+		</form>
+	</div>
+</div>
 
 <?php
 if ($name) {
 	echo "<h2>Your Input:</h2>";
 	echo "Name: " . $name . "<br>";
-	echo "E-mail: " . $email . "<br>";
-	echo "Website: " . $website . "<br>";
-	echo "Comment: " . $comment . "<br>";
-	echo "Gender: " . $gender . "<br>";
+	echo "Employee ID: " . $empid . "<br>";
 }
 ?>
 

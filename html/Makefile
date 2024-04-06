@@ -12,10 +12,10 @@ FILES= accounts.php \
 	index.html \
 	ledger.php \
 	payrate.php \
+	php_test.php \
 	styles.css \
-	transactions.php \
 	time_card.php \
-	php_test.php
+	transactions.php
 
 PRIVATE_FILES= DBC.php
 
