@@ -36,8 +36,8 @@
 
 <?php
 // define variables and set to empty values
-$nameErr = $empidErr = "";
-$name = $empid = "";
+$nameErr = $empidErr = $weekErr = "";
+$name = $empid = $week = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	if (empty($_POST['name'])) {
@@ -57,6 +57,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			$empidErr = "Only numbers allowed";
 		}
 	}
+
+	if (empty($_POST['week'])) {
+		$weekErr = "Week number required";
+	} else {
+    	$week = test_input($_POST['week']);
+		if (!preg_match("/^[0-9]*$/",$week)) {
+			$weekErr = "Only numbers allowed";
+		} else {
+			if ($week > 52) {
+				$weekErr = "Only 52 weeks in a year";
+			}
+		}
+	}
 }
 
 function test_input($data) {
@@ -67,23 +80,35 @@ function test_input($data) {
 }
 ?>
 
+<form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
 <div class="grid-container">
 	<div class="item1"><h2>Weekly Time Card</h2></div>
 	<div class="item2" style="text-align: left";>
 		<p><span class="error">* required field</span></p>
-		<form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
 		  Name: <input type="text" name="name" value="<?php echo $name;?>">
-		  <span class="error">* <?php echo $nameErr;?></span>
+		  <span class="error">* <br><?php echo $nameErr;?></span>
 		  <br><br>
 
 		  Emplyee ID: <input type="text" name="empid" value="<?php echo $empid;?>">
-		  <span class="error">* <?php echo $empidErr;?></span>
+		  <span class="error">* <br><?php echo $empidErr;?></span>
 		  <br><br>
+	</div>
+	<div class="item3">
+		<img src="timeclock.jpg" alt="Time Clock" style="width:1000px;">	
+	</div>
+	<div class="item4" style=text-align: left;>
+		<h3>Week Number</h3>
+		  Week: <input type="text" name="week" value="<?php echo $week;?>">
+		  <span class="error">* <br><?php echo $weekErr;?></span>
+		  <br><br>
+	</div>
+	<div class="item5" alt="Data entry">
+		Data entry here
 	</div>
 	<div class=item7>
 		  <input type="submit" name="submit" value="Submit">
-		</form>
 	</div>
+</form>
 </div>
 
 <?php
@@ -91,6 +116,7 @@ if ($name) {
 	echo "<h2>Your Input:</h2>";
 	echo "Name: " . $name . "<br>";
 	echo "Employee ID: " . $empid . "<br>";
+	echo "Week: " . $week . "<br>";
 }
 ?>
 
