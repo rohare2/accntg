@@ -15,6 +15,7 @@ FILES= accounts.php \
 	php_test.php \
 	styles.css \
 	time_card.php \
+	timeclock.jpg \
 	transactions.php
 
 PRIVATE_FILES= DBC.php
