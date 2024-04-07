@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<title>TimeCard</title>
+	<link rel="stylesheet" href="styles.css">
 	<style>
 	.error {color: #FF0000;}
 
@@ -16,7 +18,7 @@
 		display: grid;
 		grid-template-areas:
 			'header header header header header header'
-			'left center center center center right'
+			'left left left center center right'
 			'table table table table table total'
 			'footer footer footer footer footer footer';
 		gap: 10px;
@@ -83,30 +85,55 @@ function test_input($data) {
 <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
 <div class="grid-container">
 	<div class="item1"><h2>Weekly Time Card</h2></div>
-	<div class="item2" style="text-align: left";>
-		<p><span class="error">* required field</span></p>
-		  Name: <input type="text" name="name" value="<?php echo $name;?>">
-		  <span class="error">* <br><?php echo $nameErr;?></span>
+	<div class="item2" style="text-align:left">
+		<p style="margin-left: 10px"><span class="error">* required field</span></p>
+		  <span style="margin-left:10px">Name: <input type="text" name="name" value="<?php echo $name;?>"></span>
+		  <span class="error">* <?php echo $nameErr;?></span>
 		  <br><br>
 
-		  Emplyee ID: <input type="text" name="empid" value="<?php echo $empid;?>">
-		  <span class="error">* <br><?php echo $empidErr;?></span>
+		  <span style="margin-left:10px">Emplyee #: <input type="text" name="empid" value="<?php echo $empid;?>"></span>
+		  <span class="error">* <?php echo $empidErr;?></span>
 		  <br><br>
 	</div>
 	<div class="item3">
-		<img src="timeclock.jpg" alt="Time Clock" style="width:1000px;">	
+		<img src="timeclock.jpg" width="300" height="300" alt="Time Clock">
 	</div>
 	<div class="item4" style=text-align: left;>
 		<h3>Week Number</h3>
-		  Week: <input type="text" name="week" value="<?php echo $week;?>">
+		  <input type="text" name="week" size="4" value="<?php echo $week;?>">
 		  <span class="error">* <br><?php echo $weekErr;?></span>
 		  <br><br>
 	</div>
 	<div class="item5" alt="Data entry">
-		Data entry here
+		<table style="width:100%">
+			<tr>
+				<th>Account</th><th>Description</th><th>S</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th>
+			</tr>
+			<tr>
+				<td>accnt1</td><td>desc1</td><td>s1</td><td>m1</td><td>t1</td><td>w1</td><td>t1</td><td>f1</td><td>s1</td>
+			</tr>
+			<tr>
+				<td>accnt2</td><td>desc2</td><td>s2</td><td>m2</td><td>t2</td><td>w2</td><td>t2</td><td>f2</td><td>s2</td>
+			</tr>
+			<tr>
+				<td>accnt3</td><td>desc3</td><td>s3</td><td>m3</td><td>t3</td><td>w3</td><td>t3</td><td>f3</td><td>s3</td>
+			</tr>
+			<tr>
+				<td>accnt4</td><td>desc4</td><td>s4</td><td>m4</td><td>t4</td><td>w4</td><td>t4</td><td>f4</td><td>s4</td>
+			</tr>
+		</table>
+	</div>
+	<div>
+		<p><h3>Total Hours</h3></p>
+		40
 	</div>
 	<div class=item7>
-		  <input type="submit" name="submit" value="Submit">
+		<input type="submit" name="submit" value="Submit">
+			<div class="left">&nbsp</div>
+			<div class="right">
+		 		<a href="./">Back</a>&nbsp
+				<a href="http://www">Home</a>&nbsp
+		  </div>
 	</div>
 </form>
 </div>
