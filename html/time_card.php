@@ -3,6 +3,7 @@
 <head>
 	<title>TimeCard</title>
 	<link rel="stylesheet" href="styles.css">
+
 	<style>
 	.error {color: #FF0000;}
 
@@ -82,7 +83,7 @@ function test_input($data) {
 }
 ?>
 
-<form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+<!-- <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>"> -->
 <div class="grid-container">
 	<div class="item1"><h2>Weekly Time Card</h2></div>
 	<div class="item2" style="text-align:left">
@@ -91,7 +92,7 @@ function test_input($data) {
 		  <span class="error">* <?php echo $nameErr;?></span>
 		  <br><br>
 
-		  <span style="margin-left:10px">Emplyee #: <input type="text" name="empid" value="<?php echo $empid;?>"></span>
+		  <span style="margin-left:10px">Emplyee #: <input type="text" name="empid" style="width:60px;" value="<?php echo $empid;?>"></span>
 		  <span class="error">* <?php echo $empidErr;?></span>
 		  <br><br>
 	</div>
@@ -100,9 +101,15 @@ function test_input($data) {
 	</div>
 	<div class="item4" style=text-align: left;>
 		<h3>Week Number</h3>
-		  <input type="text" name="week" size="4" value="<?php echo $week;?>">
-		  <span class="error">* <br><?php echo $weekErr;?></span>
-		  <br><br>
+		<input type="text" name="week" size="4" value="<?php echo $week;?>">
+		<span class="error">* <br><?php echo $weekErr;?></span>
+		<br><br>
+		<h3>Entry Rows</h3>
+		<div>
+			<button id="decrement">-</button>
+			<input  id="input" type="number" value="0" style="width:50px;" readonly>
+			<button id="increment">+</button>
+		</div>
 	</div>
 	<div class="item5" alt="Data entry">
 		<table style="width:100%">
@@ -135,8 +142,40 @@ function test_input($data) {
 				<a href="http://www">Home</a>&nbsp
 		  </div>
 	</div>
-</form>
 </div>
+<!-- </form> -->
+
+<script>
+let counter = 4;
+
+function increment() {
+  counter++;
+}
+
+function decrement() {
+  counter--;
+}
+
+function get() {
+  return counter;
+}
+
+const inc = document.getElementById("increment");
+const input = document.getElementById("input");
+const dec = document.getElementById("decrement");
+
+inc.addEventListener("click", () => {
+  increment();
+  input.value = get();
+});
+
+dec.addEventListener("click", () => {
+  if (input.value > 0) {
+    decrement();
+  }
+  input.value = get();
+});
+</script>
 
 <?php
 if ($name) {
