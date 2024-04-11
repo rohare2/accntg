@@ -41,6 +41,7 @@
 // define variables and set to empty values
 $nameErr = $empidErr = $weekErr = "";
 $name = $empid = $week = "";
+$rows = "4";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	if (empty($_POST['name'])) {
@@ -73,6 +74,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			}
 		}
 	}
+
+    $rows = test_input($_POST['rows']);
 }
 
 function test_input($data) {
@@ -84,12 +87,11 @@ function test_input($data) {
 ?>
 
 <!-- Hidden form -->
-<!-- <form id="hiddenForm" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>"> -->
-<!-- <form id="hiddenForm" method="post" action="submit.php" style="display:none;"> -->
 <form id="hiddenForm" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" style="display:none">
-	<input type="text" id="hiddenName" name="name"> 
+	<input type="hidden" id="hiddenName" name="name"> 
 	<input type="hidden" id="hiddenEmpid" name="empid"> 
-	<input type="hidden" id="hiddenWeek" name="week" type="text"> 
+	<input type="hidden" id="hiddenWeek" name="week"> 
+	<input type="hidden" id="hiddenRows" name="rows"> 
 </form>
 
 <!-- visible input -->
@@ -116,7 +118,7 @@ function test_input($data) {
 		<h3>Entry Rows</h3>
 		<div>
 			<button id="decrement">-</button>
-			<input  id="rows" type="number" value="4" style="width:50px;" readonly>
+			<input  id="rows" type="number" value="<?php echo $rows; ?>" style="width:50px;" readonly>
 			<button id="increment">+</button>
 		</div>
 	</div>
@@ -192,12 +194,14 @@ function submitHiddenForm() {
 	var visibleName = document.getElementById("name").value;
 	var visibleEmpid = document.getElementById("empid").value;
 	var visibleWeek = document.getElementById("week").value;
+	var visibleRows = document.getElementById("rows").value;
 	<!-- add more hidden input fields -->
 
 	// Set values to hidden fields
 	document.getElementById("hiddenName").value = visibleName;
 	document.getElementById("hiddenEmpid").value = visibleEmpid;
 	document.getElementById("hiddenWeek").value = visibleWeek;
+	document.getElementById("hiddenRows").value = visibleRows;
 
 	document.getElementById("hiddenForm").submit();
 }
@@ -209,6 +213,7 @@ if ($name && $empid && $week) {
 	echo "Name: " . $name . "<br>";
 	echo "Employee ID: " . $empid . "<br>";
 	echo "Week: " . $week . "<br>";
+	echo "Rows: " . $rows . "<br>";
 } else {
 	echo "<h2>Invalid submittion</h2>";
 }
