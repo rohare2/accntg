@@ -83,16 +83,25 @@ function test_input($data) {
 }
 ?>
 
-<!-- <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>"> -->
+<!-- Hidden form -->
+<!-- <form id="hiddenForm" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>"> -->
+<!-- <form id="hiddenForm" method="post" action="submit.php" style="display:none;"> -->
+<form id="hiddenForm" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" style="display:none">
+	<input type="text" id="hiddenName" name="name"> 
+	<input type="hidden" id="hiddenEmpid" name="empid"> 
+	<input type="hidden" id="hiddenWeek" name="week" type="text"> 
+</form>
+
+<!-- visible input -->
 <div class="grid-container">
 	<div class="item1"><h2>Weekly Time Card</h2></div>
 	<div class="item2" style="text-align:left">
 		<p style="margin-left: 10px"><span class="error">* required field</span></p>
-		  <span style="margin-left:10px">Name: <input type="text" name="name" value="<?php echo $name;?>"></span>
+		  <span style="margin-left:10px">Name: <input type="text" id="name" value="<?php echo $name;?>"></span>
 		  <span class="error">* <?php echo $nameErr;?></span>
 		  <br><br>
 
-		  <span style="margin-left:10px">Emplyee #: <input type="text" name="empid" style="width:60px;" value="<?php echo $empid;?>"></span>
+		  <span style="margin-left:10px">Emplyee #: <input type="text" id="empid" style="width:60px;" value="<?php echo $empid;?>"></span>
 		  <span class="error">* <?php echo $empidErr;?></span>
 		  <br><br>
 	</div>
@@ -101,13 +110,13 @@ function test_input($data) {
 	</div>
 	<div class="item4" style=text-align: left;>
 		<h3>Week Number</h3>
-		<input type="text" name="week" size="4" value="<?php echo $week;?>">
+		<input type="text" id="week" size="4" value="<?php echo $week;?>">
 		<span class="error">* <br><?php echo $weekErr;?></span>
 		<br><br>
 		<h3>Entry Rows</h3>
 		<div>
 			<button id="decrement">-</button>
-			<input  id="input" type="number" value="0" style="width:50px;" readonly>
+			<input  id="rows" type="number" value="4" style="width:50px;" readonly>
 			<button id="increment">+</button>
 		</div>
 	</div>
@@ -135,17 +144,18 @@ function test_input($data) {
 		40
 	</div>
 	<div class=item7>
-		<input type="submit" name="submit" value="Submit">
-			<div class="left">&nbsp</div>
-			<div class="right">
-		 		<a href="./">Back</a>&nbsp
-				<a href="http://www">Home</a>&nbsp
-		  </div>
+		<!-- <button type="button" onlick="submitHiddenForm()">Submit</button> -->
+		<button onclick="submitHiddenForm()">Submit</button>
+		<div class="left">&nbsp</div>
+		<div class="right">
+			<a href="./">Back</a>&nbsp
+			<a href="http://www">Home</a>&nbsp
+		</div>
 	</div>
 </div>
-<!-- </form> -->
 
 <script>
+<!-- Row management -->
 let counter = 4;
 
 function increment() {
@@ -161,7 +171,7 @@ function get() {
 }
 
 const inc = document.getElementById("increment");
-const input = document.getElementById("input");
+const input = document.getElementById("rows");
 const dec = document.getElementById("decrement");
 
 inc.addEventListener("click", () => {
@@ -175,14 +185,32 @@ dec.addEventListener("click", () => {
   }
   input.value = get();
 });
+
+<!-- Submit form -->
+function submitHiddenForm() {
+	// Get values from visible fields
+	var visibleName = document.getElementById("name").value;
+	var visibleEmpid = document.getElementById("empid").value;
+	var visibleWeek = document.getElementById("week").value;
+	<!-- add more hidden input fields -->
+
+	// Set values to hidden fields
+	document.getElementById("hiddenName").value = visibleName;
+	document.getElementById("hiddenEmpid").value = visibleEmpid;
+	document.getElementById("hiddenWeek").value = visibleWeek;
+
+	document.getElementById("hiddenForm").submit();
+}
 </script>
 
 <?php
-if ($name) {
+if ($name && $empid && $week) {
 	echo "<h2>Your Input:</h2>";
 	echo "Name: " . $name . "<br>";
 	echo "Employee ID: " . $empid . "<br>";
 	echo "Week: " . $week . "<br>";
+} else {
+	echo "<h2>Invalid submittion</h2>";
 }
 ?>
 
