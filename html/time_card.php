@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOTYPE html>
 <html>
 <head>
 	<title>TimeCard</title>
@@ -41,7 +41,7 @@
 // define variables and set to empty values
 $nameErr = $empidErr = $weekErr = "";
 $name = $empid = $week = "";
-$rows = "4";
+$rows = 4;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	if (empty($_POST['name'])) {
@@ -75,7 +75,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		}
 	}
 
-    $rows = test_input($_POST['rows']);
+	if (!empty($_POST['rows'])) {
+    	$rows = test_input($_POST['rows']);
+	}
 }
 
 function test_input($data) {
@@ -188,7 +190,7 @@ dec.addEventListener("click", () => {
   input.value = get();
 });
 
-<!-- Submit form -->
+<!-- Submit form data -->
 function submitHiddenForm() {
 	// Get values from visible fields
 	var visibleName = document.getElementById("name").value;
