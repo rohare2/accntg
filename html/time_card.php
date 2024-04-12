@@ -112,7 +112,7 @@ function test_input($data) {
 	<div class="item3">
 		<img src="timeclock.jpg" width="300" height="300" alt="Time Clock">
 	</div>
-	<div class="item4" style=text-align: left;>
+	<div class="item4" style="text-align:left">
 		<h3>Week Number</h3>
 		<input type="text" id="week" size="4" value="<?php echo $week;?>">
 		<span class="error">* <br><?php echo $weekErr;?></span>
@@ -130,16 +130,48 @@ function test_input($data) {
 				<th>Account</th><th>Description</th><th>S</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th>
 			</tr>
 			<tr>
-				<td>accnt1</td><td>desc1</td><td>s1</td><td>m1</td><td>t1</td><td>w1</td><td>t1</td><td>f1</td><td>s1</td>
+				<td>accnt1</td>
+				<td>desc1</td>
+				<td style="text-align: center"></td>
+				<td style="text-align: center"></td>
+				<td style="text-align: center"></td>
+				<td style="text-align: center"></td>
+				<td style="text-align: center"></td>
+				<td style="text-align: center"></td>
+				<td style="text-align: center"></td>
 			</tr>
 			<tr>
-				<td>accnt2</td><td>desc2</td><td>s2</td><td>m2</td><td>t2</td><td>w2</td><td>t2</td><td>f2</td><td>s2</td>
+				<td>accnt2</td>
+				<td>desc2</td>
+				<td style="text-align: center"></td>
+				<td style="text-align: center"></td>
+				<td style="text-align: center"></td>
+				<td style="text-align: center"></td>
+				<td style="text-align: center"></td>
+				<td style="text-align: center"></td>
+				<td style="text-align: center"></td>
 			</tr>
 			<tr>
-				<td>accnt3</td><td>desc3</td><td>s3</td><td>m3</td><td>t3</td><td>w3</td><td>t3</td><td>f3</td><td>s3</td>
+				<td>accnt3</td>
+				<td>desc3</td>
+				<td style="text-align: center"></td>
+				<td style="text-align: center"></td>
+				<td style="text-align: center"></td>
+				<td style="text-align: center"></td>
+				<td style="text-align: center"></td>
+				<td style="text-align: center"></td>
+				<td style="text-align: center"></td>
 			</tr>
 			<tr>
-				<td>accnt4</td><td>desc4</td><td>s4</td><td>m4</td><td>t4</td><td>w4</td><td>t4</td><td>f4</td><td>s4</td>
+				<td>accnt4</td>
+				<td>desc4</td>
+				<td style="text-align: center"></td>
+				<td style="text-align: center"></td>
+				<td style="text-align: center"></td>
+				<td style="text-align: center"></td>
+				<td style="text-align: center"></td>
+				<td style="text-align: center"></td>
+				<td style="text-align: center"></td>
 			</tr>
 		</table>
 	</div>
