@@ -112,9 +112,9 @@ function test_input($data) {
 	<div class="item3">
 		<img src="timeclock.jpg" width="300" height="300" alt="Time Clock">
 	</div>
-	<div class="item4" style="text-align:left">
+	<div class="item4" style="text-align:center">
 		<h3>Week Number</h3>
-		<input type="text" id="week" size="4" value="<?php echo $week;?>">
+		<input type="text" id="week" size="2" value="<?php echo $week;?>">
 		<span class="error">* <br><?php echo $weekErr;?></span>
 		<br><br>
 		<h3>Entry Rows</h3>
@@ -125,55 +125,56 @@ function test_input($data) {
 		</div>
 	</div>
 	<div class="item5" alt="Data entry">
-		<table style="width:100%">
+		<table id="dataTable" style="width:100%">
 			<tr>
-				<th>Account</th><th>Description</th><th>S</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th>
+				<th style="width:100px">Account</th><th>Description</th><th>S</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th>
 			</tr>
 			<tr>
-				<td>accnt1</td>
-				<td>desc1</td>
-				<td style="text-align: center"></td>
-				<td style="text-align: center"></td>
-				<td style="text-align: center"></td>
-				<td style="text-align: center"></td>
-				<td style="text-align: center"></td>
-				<td style="text-align: center"></td>
-				<td style="text-align: center"></td>
+				<td><input id="accnt1" type="text" style="width:100%"></td>
+				<td><input id="desc1" type="text" style="width:100%"</td>
+				<td style="text-align: center"><input id="sun1" type="text" style="width:25px"</td>
+				<td style="text-align: center"><input id="mon1" type="text" style="width:25px"</td>
+				<td style="text-align: center"><input id="tue1" type="text" style="width:25px"</td>
+				<td style="text-align: center"><input id="wed1" type="text" style="width:25px"</td>
+				<td style="text-align: center"><input id="thu1" type="text" style="width:25px"</td>
+				<td style="text-align: center"><input id="fri1" type="text" style="width:25px"</td>
+				<td style="text-align: center"><input id="sat1" type="text" style="width:25px"</td>
 			</tr>
 			<tr>
-				<td>accnt2</td>
-				<td>desc2</td>
-				<td style="text-align: center"></td>
-				<td style="text-align: center"></td>
-				<td style="text-align: center"></td>
-				<td style="text-align: center"></td>
-				<td style="text-align: center"></td>
-				<td style="text-align: center"></td>
-				<td style="text-align: center"></td>
+				<td><input id="accnt2" type="text" style="width:100%"></td>
+				<td><input id="desc2" type="text" style="width:100%"</td>
+				<td style="text-align: center"><input id="sun2" type="text" style="width:25px"</td>
+				<td style="text-align: center"><input id="mon2" type="text" style="width:25px"</td>
+				<td style="text-align: center"><input id="tue2" type="text" style="width:25px"</td>
+				<td style="text-align: center"><input id="wed2" type="text" style="width:25px"</td>
+				<td style="text-align: center"><input id="thu2" type="text" style="width:25px"</td>
+				<td style="text-align: center"><input id="fri2" type="text" style="width:25px"</td>
+				<td style="text-align: center"><input id="sat2" type="text" style="width:25px"</td>
 			</tr>
 			<tr>
-				<td>accnt3</td>
-				<td>desc3</td>
-				<td style="text-align: center"></td>
-				<td style="text-align: center"></td>
-				<td style="text-align: center"></td>
-				<td style="text-align: center"></td>
-				<td style="text-align: center"></td>
-				<td style="text-align: center"></td>
-				<td style="text-align: center"></td>
+				<td><input id="accnt3" type="text" style="width:100%"></td>
+				<td><input id="desc3" type="text" style="width:100%"</td>
+				<td style="text-align: center"><input id="sun3" type="text" style="width:25px"</td>
+				<td style="text-align: center"><input id="mon3" type="text" style="width:25px"</td>
+				<td style="text-align: center"><input id="tue3" type="text" style="width:25px"</td>
+				<td style="text-align: center"><input id="wed3" type="text" style="width:25px"</td>
+				<td style="text-align: center"><input id="thu3" type="text" style="width:25px"</td>
+				<td style="text-align: center"><input id="fri3" type="text" style="width:25px"</td>
+				<td style="text-align: center"><input id="sat3" type="text" style="width:25px"</td>
 			</tr>
 			<tr>
-				<td>accnt4</td>
-				<td>desc4</td>
-				<td style="text-align: center"></td>
-				<td style="text-align: center"></td>
-				<td style="text-align: center"></td>
-				<td style="text-align: center"></td>
-				<td style="text-align: center"></td>
-				<td style="text-align: center"></td>
-				<td style="text-align: center"></td>
+				<td><input id="accnt4" type="text" style="width:100%"></td>
+				<td><input id="desc4" type="text" style="width:100%"</td>
+				<td style="text-align: center"><input id="sun4" type="text" style="width:25px"</td>
+				<td style="text-align: center"><input id="mon4" type="text" style="width:25px"</td>
+				<td style="text-align: center"><input id="tue4" type="text" style="width:25px"</td>
+				<td style="text-align: center"><input id="wed4" type="text" style="width:25px"</td>
+				<td style="text-align: center"><input id="thu4" type="text" style="width:25px"</td>
+				<td style="text-align: center"><input id="fri4" type="text" style="width:25px"</td>
+				<td style="text-align: center"><input id="sat4" type="text" style="width:25px"</td>
 			</tr>
 		</table>
+		<button onclick="addRow()">Add Row</button>
 	</div>
 	<div>
 		<p><h3>Total Hours</h3></p>
@@ -238,6 +239,30 @@ function submitHiddenForm() {
 	document.getElementById("hiddenRows").value = visibleRows;
 
 	document.getElementById("hiddenForm").submit();
+}
+
+function addRow() {
+	var table = document.getElementById("dataTable");
+	var row = table.insertRow();
+	var accntCell = row.insertCell(0);
+	var descCell = row.insertCell(1);
+	var sunCell = row.insertCell(2);
+	var monCell = row.insertCell(3);
+	var tueCell = row.insertCell(4);
+	var wedCell = row.insertCell(5);
+	var thuCell = row.insertCell(6);
+	var friCell = row.insertCell(7);
+	var satCell = row.insertCell(8);
+
+	accntCell.innerHTML = "2924";
+	descCell.innerHTML = "Some account description";
+	sunCell.innerHTML = "";
+	monCell.innerHTML = "";
+	tueCell.innerHTML = "";
+	wedCell.innerHTML = "";
+	thuCell.innerHTML = "";
+	friCell.innerHTML = "";
+	satCell.innerHTML = "";
 }
 </script>
 
