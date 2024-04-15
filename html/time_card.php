@@ -126,6 +126,7 @@ function test_input($data) {
 	</div>
 	<div class="item5" alt="Data entry">
 		<table id="dataTable" style="width:100%">
+			<thead>
 			<tr>
 				<th style="width:100px">Account</th>
 				<th style="width:60%">Description</th>
@@ -137,6 +138,7 @@ function test_input($data) {
 				<th>F</th>
 				<th>S</th>
 			</tr>
+			</thead>
 		</table>
 	</div>
 	<div>
@@ -162,15 +164,52 @@ function addRow() {
 
 	for (i = 0; i < 9; i++) {
 		var icell = row.insertCell(i);
-		if (i == 0) {
-			icell.innerHTML = "<input type='text' style='width:100px'>";
-		}
-		if (i == 1) {
-			icell.innerHTML = "<input type:'text' style='width:98%'>";
-		}
-		if (i > 1) {
-			icell.innerHTML = "<input type='text' style='width:25px'>";
-			icell.style.textAlign = "center";
+		switch (i) {
+			case 0:
+				icell.innerHTML = '<input type="text" name="account[]" style="width:100px">';
+				break;
+		
+			case 1:
+				icell.innerHTML = "<input type:'text' name='desc[]' style='width:98%'>";
+				break;
+		
+			case 2:
+				icell.innerHTML = "<input type='text' name='sun[]' style='width:25px'>";
+				icell.style.textAlign = "center";
+				break;
+
+			case 3:
+				icell.innerHTML = "<input type='text' name='mon[]' style='width:25px'>";
+				icell.style.textAlign = "center";
+				break;
+
+			case 4:
+				icell.innerHTML = "<input type='text' name='tue[]' style='width:25px'>";
+				icell.style.textAlign = "center";
+				break;
+
+			case 5:
+				icell.innerHTML = "<input type='text' name='wed[]' style='width:25px'>";
+				icell.style.textAlign = "center";
+				break;
+
+			case 6:
+				icell.innerHTML = "<input type='text' name='thu[]' style='width:25px'>";
+				icell.style.textAlign = "center";
+				break;
+
+			case 7:
+				icell.innerHTML = "<input type='text' name='fri[]' style='width:25px'>";
+				icell.style.textAlign = "center";
+				break;
+
+			case 8:
+				icell.innerHTML = "<input type='text' name='sat[]' style='width:25px'>";
+				icell.style.textAlign = "center";
+				break;
+
+			default:
+				console.log("Invalid value:" + i);
 		}
 	}
 }
@@ -206,7 +245,7 @@ inc.addEventListener("click", () => {
 });
 
 dec.addEventListener("click", () => {
-  if (input.value > 0) {
+  if (input.value > 1) {
     decrement();
   }
   input.value = get();
