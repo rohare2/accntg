@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
 	<title>TimeCard</title>
@@ -137,52 +137,7 @@ function test_input($data) {
 				<th>F</th>
 				<th>S</th>
 			</tr>
-			<tr>
-				<td><input id="accnt1" type="text" style="width:100px"></td>
-				<td><input id="desc1" type="text" style="width:98%"</td>
-				<td style="text-align: center"><input id="sun1" type="text" style="width:25px"></td>
-				<td style="text-align: center"><input id="mon1" type="text" style="width:25px"></td>
-				<td style="text-align: center"><input id="tue1" type="text" style="width:25px"></td>
-				<td style="text-align: center"><input id="wed1" type="text" style="width:25px"></td>
-				<td style="text-align: center"><input id="thu1" type="text" style="width:25px"></td>
-				<td style="text-align: center"><input id="fri1" type="text" style="width:25px"></td>
-				<td style="text-align: center"><input id="sat1" type="text" style="width:25px"></td>
-			</tr>
-			<tr>
-				<td><input id="accnt2" type="text" style="width:100px"></td>
-				<td><input id="desc2" type="text" style="width:98%"</td>
-				<td style="text-align: center"><input id="sun2" type="text" style="width:25px"></td>
-				<td style="text-align: center"><input id="mon2" type="text" style="width:25px"></td>
-				<td style="text-align: center"><input id="tue2" type="text" style="width:25px"></td>
-				<td style="text-align: center"><input id="wed2" type="text" style="width:25px"></td>
-				<td style="text-align: center"><input id="thu2" type="text" style="width:25px"></td>
-				<td style="text-align: center"><input id="fri2" type="text" style="width:25px"></td>
-				<td style="text-align: center"><input id="sat2" type="text" style="width:25px"></td>
-			</tr>
-			<tr>
-				<td><input id="accnt3" type="text" style="width:100px"></td>
-				<td><input id="desc3" type="text" style="width:98%"</td>
-				<td style="text-align: center"><input id="sun3" type="text" style="width:25px"></td>
-				<td style="text-align: center"><input id="mon3" type="text" style="width:25px"></td>
-				<td style="text-align: center"><input id="tue3" type="text" style="width:25px"></td>
-				<td style="text-align: center"><input id="wed3" type="text" style="width:25px"></td>
-				<td style="text-align: center"><input id="thu3" type="text" style="width:25px"></td>
-				<td style="text-align: center"><input id="fri3" type="text" style="width:25px"></td>
-				<td style="text-align: center"><input id="sat3" type="text" style="width:25px"></td>
-			</tr>
-			<tr>
-				<td><input id="accnt4" type="text" style="width:100px"></td>
-				<td><input id="desc4" type="text" style="width:98%"</td>
-				<td style="text-align: center"><input id="sun4" type="text" style="width:25px"></td>
-				<td style="text-align: center"><input id="mon4" type="text" style="width:25px"></td>
-				<td style="text-align: center"><input id="tue4" type="text" style="width:25px"></td>
-				<td style="text-align: center"><input id="wed4" type="text" style="width:25px"></td>
-				<td style="text-align: center"><input id="thu4" type="text" style="width:25px"></td>
-				<td style="text-align: center"><input id="fri4" type="text" style="width:25px"></td>
-				<td style="text-align: center"><input id="sat4" type="text" style="width:25px"></td>
-			</tr>
 		</table>
-		<button onclick="addRow()">Add Row</button>
 	</div>
 	<div>
 		<p><h3>Total Hours</h3></p>
@@ -200,15 +155,41 @@ function test_input($data) {
 </div>
 
 <script>
-<!-- Row management -->
+
+function addRow() {
+	var dtable = document.getElementById("dataTable");
+	var row = dtable.insertRow();
+
+	for (i = 0; i < 9; i++) {
+		var icell = row.insertCell(i);
+		if (i == 0) {
+			icell.innerHTML = "<input type='text' style='width:100px'>";
+		}
+		if (i == 1) {
+			icell.innerHTML = "<input type:'text' style='width:98%'>";
+		}
+		if (i > 1) {
+			icell.innerHTML = "<input type='text' style='width:25px'>";
+			icell.style.textAlign = "center";
+		}
+	}
+}
+
+function deleteRow() {
+	document.getElementById("dataTable").deleteRow(-1);
+}
+
+<!-- Row count selector -->
 let counter = 4;
 
 function increment() {
   counter++;
+  addRow();
 }
 
 function decrement() {
   counter--;
+  deleteRow();
 }
 
 function get() {
@@ -231,6 +212,10 @@ dec.addEventListener("click", () => {
   input.value = get();
 });
 
+for (k = 0; k < counter; k++) {
+	addRow();
+}
+
 <!-- Submit form data -->
 function submitHiddenForm() {
 	// Get values from visible fields
@@ -249,24 +234,6 @@ function submitHiddenForm() {
 	document.getElementById("hiddenForm").submit();
 }
 
-function addRow() {
-	var dtable = document.getElementById("dataTable");
-	var row = dtable.insertRow();
-
-	for (i = 0; i < 9; i++) {
-		var icell = row.insertCell(i);
-		if (i == 0) {
-			icell.innerHTML = "<input type='text' style='width:100px'>";
-		}
-		if (i == 1) {
-			icell.innerHTML = "<input type:'text' style='width:98%'>";
-		}
-		if (i > 1) {
-			icell.innerHTML = "<input type='text' style='width:25px'>";
-			icell.style.textAlign = "center";
-		}
-	}
-}
 </script>
 
 <?php
