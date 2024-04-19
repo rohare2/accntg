@@ -35,16 +35,64 @@
 	}
 	</style>
 </head>
-
 <body>
+
+<?php
+$name = $empid = $week = "";
+$nameErr = $empidErr = $weekErr = "";
+
+// Validate input values
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+	$name = test_input($_POST['name']);
+	if (!preg_match("/^[a-zA-Z-' ]*$/", $name)) {
+		$nameErr = "Only letters, dash and single quote allowed";
+	}
+
+	$empid = test_input($_POST['empid']);
+	if (!preg_match("/^[0-9]*$/",$empid)) {
+		$empidErr = "Only numbers allowed";
+	}
+
+	$week = test_input($_POST['week']);
+	if (!preg_match("/^[0-9]*$/",$week)) {
+		$weekErr = "Only numbers allowed";
+	} else {
+		if ($week > 52) {
+			$weekErr = "Only 52 weeks in a year";
+		}
+    }
+
+	$rows = $_POST["rowCountInput"];
+	$accnt = $_POST["accnt"];
+	$desc = $_POST["desc"];
+	$sun = $_POST["sun"];
+	$mon = $_POST["mon"];
+	$tue = $_POST["tue"];
+	$wed = $_POST["wed"];
+	$thu = $_POST["thu"];
+	$fri = $_POST["fri"];
+	$sat = $_POST["sat"];
+}
+
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+?>
+
 <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="post">
 <div class="grid-container">
 	<div class="item1"><h2>Weekly Time Card</h2></div>
 	<div class="item2" style="text-align:left">
+		<p style="margin-left: 10px"><span class="error">* required field</span></p>
 		  <span style="margin-left:10px">Name: <input type="text" name="name" required></span>
+		  <span class="error">* <?php echo $nameErr;?></span>
 		  <br><br>
 
 		  <span style="margin-left:10px">Emplyee #: <input type="text" name="empid" style="width:60px;" required></span>
+		  <span class="error">* <?php echo $empidErr;?></span>
 		  <br><br>
 	</div>
 	<div class="item3">
@@ -53,11 +101,12 @@
 	<div class="item4" style="text-align:center">
 		<h3>Week Number</h3>
 		<input type="text" name="week" size="2" required>
+		<span class="error">* <?php echo $weekErr;?></span>
 		<br><br>
 		<h3>Ajust row count</h3>
 		<div>
 			<button type="button" id="decrement">-</button>
-			<input type="text" id="rowCountInput" name="rowCountInput" value="6" min="1" style="width:50px">
+			<input type="text" id="rowCountInput" name="rowCountInput" value="6" min="1" max="10" style="width:50px">
 			<button type="button" id="increment">+</button>
 		</div>
 	</div>
@@ -196,26 +245,8 @@ for (k = 0; k < counter; k++) {
 
 </script>
 
+
 <?php
-$name = $empid = $week = "";
-$rows = 6;
-
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
-	$name = $_POST["name"];
-	$empid = $_POST["empid"];
-	$week = $_POST["week"];
-	$rows = $_POST["rowCountInput"];
-	$accnt = $_POST["accnt"];
-	$desc = $_POST["desc"];
-	$sun = $_POST["sun"];
-	$mon = $_POST["mon"];
-	$tue = $_POST["tue"];
-	$wed = $_POST["wed"];
-	$thu = $_POST["thu"];
-	$fri = $_POST["fri"];
-	$sat = $_POST["sat"];
-}
-
 echo "<h2>Your input</h2>";
 echo "Name: " . $name . "<br>";
 echo "EmpId: " . $empid . "<br>";
