@@ -35,78 +35,16 @@
 	}
 	</style>
 </head>
+
 <body>
-
-<?php
-// define variables and set to empty values
-$nameErr = $empidErr = $weekErr = "";
-$name = $empid = $week = "";
-$rows = 4;
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-	if (empty($_POST['name'])) {
-		$nameErr = "Name is required";
-	} else {
-    	$name = test_input($_POST['name']);
-		if (!preg_match("/^[a-zA-Z-' ]*$/",$name)) {
-			$nameErr = "Only letters and white space allowed";
-		}
-	}
-
-	if (empty($_POST['empid'])) {
-		$empidErr = "Employee ID is required";
-	} else {
-    	$empid = test_input($_POST['empid']);
-		if (!preg_match("/^[0-9]*$/",$empid)) {
-			$empidErr = "Only numbers allowed";
-		}
-	}
-
-	if (empty($_POST['week'])) {
-		$weekErr = "Week number required";
-	} else {
-    	$week = test_input($_POST['week']);
-		if (!preg_match("/^[0-9]*$/",$week)) {
-			$weekErr = "Only numbers allowed";
-		} else {
-			if ($week > 52) {
-				$weekErr = "Only 52 weeks in a year";
-			}
-		}
-	}
-
-	if (!empty($_POST['rows'])) {
-    	$rows = test_input($_POST['rows']);
-	}
-}
-
-function test_input($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-?>
-
-<!-- Hidden form -->
-<form id="hiddenForm" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" style="display:none">
-	<input type="hidden" id="hiddenName" name="name"> 
-	<input type="hidden" id="hiddenEmpid" name="empid"> 
-	<input type="hidden" id="hiddenWeek" name="week"> 
-	<input type="hidden" id="hiddenRows" name="rows"> 
-</form>
-
-<!-- visible input -->
+<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="post">
 <div class="grid-container">
 	<div class="item1"><h2>Weekly Time Card</h2></div>
 	<div class="item2" style="text-align:left">
-		<p style="margin-left: 10px"><span class="error">* required field</span></p>
-		  <span style="margin-left:10px">Name: <input type="text" id="name" value="<?php echo $name;?>"></span>
-		  <span class="error">* <?php echo $nameErr;?></span>
+		  <span style="margin-left:10px">Name: <input type="text" name="name" required></span>
 		  <br><br>
 
-		  <span style="margin-left:10px">Emplyee #: <input type="text" id="empid" style="width:60px;" value="<?php echo $empid;?>"></span>
-		  <span class="error">* <?php echo $empidErr;?></span>
+		  <span style="margin-left:10px">Emplyee #: <input type="text" name="empid" style="width:60px;" required></span>
 		  <br><br>
 	</div>
 	<div class="item3">
@@ -114,14 +52,13 @@ function test_input($data) {
 	</div>
 	<div class="item4" style="text-align:center">
 		<h3>Week Number</h3>
-		<input type="text" id="week" size="2" value="<?php echo $week;?>">
-		<span class="error">* <br><?php echo $weekErr;?></span>
+		<input type="text" name="week" size="2" required>
 		<br><br>
-		<h3>Entry Rows</h3>
+		<h3>Ajust row count</h3>
 		<div>
-			<button id="decrement">-</button>
-			<input  id="rows" type="number" value="<?php echo $rows; ?>" style="width:50px;" readonly>
-			<button id="increment">+</button>
+			<button type="button" id="decrement">-</button>
+			<input type="text" id="rowCountInput" name="rowCountInput" value="6" min="1" style="width:50px">
+			<button type="button" id="increment">+</button>
 		</div>
 	</div>
 	<div class="item5" alt="Data entry">
@@ -139,15 +76,17 @@ function test_input($data) {
 				<th>S</th>
 			</tr>
 			</thead>
+			<tbody>
+				<!-- Table rows will be dynamically added here -->
+			</tbody>
 		</table>
 	</div>
-	<div>
+	<div class="item6">
 		<p><h3>Total Hours</h3></p>
 		40
 	</div>
 	<div class=item7>
-		<!-- <button type="button" onlick="submitHiddenForm()">Submit</button> -->
-		<button onclick="submitHiddenForm()">Submit</button>
+		<button type="submit">Submit</button>
 		<div class="left">&nbsp</div>
 		<div class="right">
 			<a href="./">Back</a>&nbsp
@@ -155,71 +94,71 @@ function test_input($data) {
 		</div>
 	</div>
 </div>
+</form>
 
 <script>
-
 function addRow() {
 	var dtable = document.getElementById("dataTable");
 	var row = dtable.insertRow();
 
-	for (i = 0; i < 9; i++) {
-		var icell = row.insertCell(i);
-		switch (i) {
-			case 0:
-				icell.innerHTML = '<input type="text" name="account[]" style="width:100px">';
-				break;
-		
-			case 1:
-				icell.innerHTML = "<input type:'text' name='desc[]' style='width:98%'>";
-				break;
-		
-			case 2:
-				icell.innerHTML = "<input type='text' name='sun[]' style='width:25px'>";
-				icell.style.textAlign = "center";
-				break;
+    for (i = 0; i < 9; i++) {
+        var icell = row.insertCell(i);
+        switch (i) {
+            case 0:
+                icell.innerHTML = "<input type='text' name='accnt[]' style='width:100px'>";
+                break;
 
-			case 3:
-				icell.innerHTML = "<input type='text' name='mon[]' style='width:25px'>";
-				icell.style.textAlign = "center";
-				break;
+            case 1:
+                icell.innerHTML = "<input type:'text' name='desc[]' style='width:98%'>";
+                break;
 
-			case 4:
-				icell.innerHTML = "<input type='text' name='tue[]' style='width:25px'>";
-				icell.style.textAlign = "center";
-				break;
+            case 2:
+                icell.innerHTML = "<input type='text' name='sun[]' style='width:25px'>";
+                icell.style.textAlign = "center";
+                break;
 
-			case 5:
-				icell.innerHTML = "<input type='text' name='wed[]' style='width:25px'>";
-				icell.style.textAlign = "center";
-				break;
+            case 3:
+                icell.innerHTML = "<input type='text' name='mon[]' style='width:25px'>";
+                icell.style.textAlign = "center";
+                break;
 
-			case 6:
-				icell.innerHTML = "<input type='text' name='thu[]' style='width:25px'>";
-				icell.style.textAlign = "center";
-				break;
+            case 4:
+                icell.innerHTML = "<input type='text' name='tue[]' style='width:25px'>";
+                icell.style.textAlign = "center";
+                break;
 
-			case 7:
-				icell.innerHTML = "<input type='text' name='fri[]' style='width:25px'>";
-				icell.style.textAlign = "center";
-				break;
+            case 5:
+                icell.innerHTML = "<input type='text' name='wed[]' style='width:25px'>";
+                icell.style.textAlign = "center";
+                break;
 
-			case 8:
-				icell.innerHTML = "<input type='text' name='sat[]' style='width:25px'>";
-				icell.style.textAlign = "center";
-				break;
+            case 6:
+                icell.innerHTML = "<input type='text' name='thu[]' style='width:25px'>";
+                icell.style.textAlign = "center";
+                break;
 
-			default:
-				console.log("Invalid value:" + i);
-		}
-	}
+            case 7:
+                icell.innerHTML = "<input type='text' name='fri[]' style='width:25px'>";
+                icell.style.textAlign = "center";
+                break;
+
+            case 8:
+                icell.innerHTML = "<input type='text' name='sat[]' style='width:25px'>";
+                icell.style.textAlign = "center";
+                break;
+
+            default:
+                console.log("Invalid value:" + i);
+        }
+    }
 }
 
 function deleteRow() {
-	document.getElementById("dataTable").deleteRow(-1);
+    document.getElementById("dataTable").deleteRow(-1);
 }
 
 <!-- Row count selector -->
-let counter = 4;
+let counter = 6;
 
 function increment() {
   counter++;
@@ -236,7 +175,7 @@ function get() {
 }
 
 const inc = document.getElementById("increment");
-const input = document.getElementById("rows");
+const input = document.getElementById("rowCountInput");
 const dec = document.getElementById("decrement");
 
 inc.addEventListener("click", () => {
@@ -252,39 +191,54 @@ dec.addEventListener("click", () => {
 });
 
 for (k = 0; k < counter; k++) {
-	addRow();
-}
-
-<!-- Submit form data -->
-function submitHiddenForm() {
-	// Get values from visible fields
-	var visibleName = document.getElementById("name").value;
-	var visibleEmpid = document.getElementById("empid").value;
-	var visibleWeek = document.getElementById("week").value;
-	var visibleRows = document.getElementById("rows").value;
-	<!-- add more hidden input fields -->
-
-	// Set values to hidden fields
-	document.getElementById("hiddenName").value = visibleName;
-	document.getElementById("hiddenEmpid").value = visibleEmpid;
-	document.getElementById("hiddenWeek").value = visibleWeek;
-	document.getElementById("hiddenRows").value = visibleRows;
-
-	document.getElementById("hiddenForm").submit();
+    addRow();
 }
 
 </script>
 
 <?php
-if ($name && $empid && $week) {
-	echo "<h2>Your Input:</h2>";
-	echo "Name: " . $name . "<br>";
-	echo "Employee ID: " . $empid . "<br>";
-	echo "Week: " . $week . "<br>";
-	echo "Rows: " . $rows . "<br>";
-} else {
-	echo "<h2>Invalid submittion</h2>";
+$name = $empid = $week = "";
+$rows = 6;
+
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+	$name = $_POST["name"];
+	$empid = $_POST["empid"];
+	$week = $_POST["week"];
+	$rows = $_POST["rowCountInput"];
+	$accnt = $_POST["accnt"];
+	$desc = $_POST["desc"];
+	$sun = $_POST["sun"];
+	$mon = $_POST["mon"];
+	$tue = $_POST["tue"];
+	$wed = $_POST["wed"];
+	$thu = $_POST["thu"];
+	$fri = $_POST["fri"];
+	$sat = $_POST["sat"];
 }
+
+echo "<h2>Your input</h2>";
+echo "Name: " . $name . "<br>";
+echo "EmpId: " . $empid . "<br>";
+echo "Week: " . $week . "<br>";
+echo "rows: " . $rows . "<br>";
+echo "Accnt array: <br>";
+echo '<pre>'; print_r($accnt); echo '</pre>';
+echo "Desc array: <br>";
+echo '<pre>'; print_r($desc); echo '</pre>';
+echo "Sun array: <br>";
+echo '<pre>'; print_r($sun); echo '</pre>';
+echo "Mon array: <br>";
+echo '<pre>'; print_r($mon); echo '</pre>';
+echo "Tue array: <br>";
+echo '<pre>'; print_r($tue); echo '</pre>';
+echo "Wed array: <br>";
+echo '<pre>'; print_r($wed); echo '</pre>';
+echo "Thu array: <br>";
+echo '<pre>'; print_r($thu); echo '</pre>';
+echo "Fri array: <br>";
+echo '<pre>'; print_r($fri); echo '</pre>';
+echo "Sat array: <br>";
+echo '<pre>'; print_r($sat); echo '</pre>';
 ?>
 
 </body>
