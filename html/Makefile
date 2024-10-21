@@ -6,15 +6,15 @@ DIR= /var/www/html/accntg
 FILES= accounts.php \
 	Common.php \
 	balance_sheet.php \
-	DBC.php \
 	debit_credit_ck.php \
 	employee.php \
 	index.html \
+	jquery_functions.js \
 	ledger.php \
 	payrate.php \
-	php_test.php \
 	styles.css \
 	time_card.php \
+	timecard_functions.php \
 	timeclock.jpg \
 	transactions.php
 

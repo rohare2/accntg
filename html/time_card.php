@@ -38,14 +38,17 @@
 <body>
 
 <?php
-$name = $empid = $week = "";
-$nameErr = $empidErr = $weekErr = "";
+session_start();
+require_once('DBC.php');
+
+$emp = $empid = $week = "";
+$empErr = $empidErr = $weekErr = "";
 
 // Validate input values
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-	$name = test_input($_POST['name']);
-	if (!preg_match("/^[a-zA-Z-' ]*$/", $name)) {
-		$nameErr = "Only letters, dash and single quote allowed";
+	$emp = test_input($_POST['emp']);
+	if (!preg_match("/^[0-9]*$/", $emp)) {
+		$empErr = "Only letters, dash and single quote allowed";
 	}
 
 	$empid = test_input($_POST['empid']);
@@ -87,8 +90,34 @@ function test_input($data) {
 	<div class="item1"><h2>Weekly Time Card</h2></div>
 	<div class="item2" style="text-align:left">
 		<p style="margin-left: 10px"><span class="error">* required field</span></p>
-		  <span style="margin-left:10px">Name: <input type="text" name="name" required></span>
-		  <span class="error">* <?php echo $nameErr;?></span>
+		  <span style="margin-left:10px">
+		  	 <label for="emp">Employee:</label>
+		 	 <select name="emp" id="emp" required>
+			 	<?php
+				require_once 'timecard_functions.php';
+
+        		$connection = db_connect();
+
+        		if ($connection) {
+            		$sql = "SELECT empNo, email FROM employee";
+            		$result = $connection->query($sql);
+
+            		if ($result->num_rows > 0) {
+                		while ($row = $result->fetch_assoc()) {
+                    		echo "<option value='" . $row['empNo'] . "'>" . $row['email'] . "</option>";
+                		}
+            		} else {
+                		echo "<option value=''>No employees available</option>";
+            		}
+
+            		db_close($connectin);
+        		} else {
+            		alert("Connection failed");
+        		}
+				?>
+			 </select>
+	      </span>
+		  <span class="error">* <?php echo $empErr;?></span>
 		  <br><br>
 
 		  <span style="margin-left:10px">Emplyee #: <input type="text" name="empid" style="width:60px;" required></span>
@@ -248,7 +277,7 @@ for (k = 0; k < counter; k++) {
 
 <?php
 echo "<h2>Your input</h2>";
-echo "Name: " . $name . "<br>";
+echo "Employee: " . $emp . "<br>";
 echo "EmpId: " . $empid . "<br>";
 echo "Week: " . $week . "<br>";
 echo "rows: " . $rows . "<br>";
