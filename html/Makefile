@@ -13,7 +13,7 @@ FILES= accounts.php \
 	ledger.php \
 	payrate.php \
 	styles.css \
-	time_card.php \
+	timecard.php \
 	timecard_functions.php \
 	timeclock.jpg \
 	transactions.php
