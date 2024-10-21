@@ -94,7 +94,7 @@ function test_input($data) {
 		  	 <label for="emp">Employee:</label>
 		 	 <select name="emp" id="emp" required>
 			 	<?php
-				require_once 'timecard_functions.php';
+				require_once 'accntg_functions.php';
 
         		$connection = db_connect();
 

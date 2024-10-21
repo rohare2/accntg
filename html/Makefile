@@ -4,6 +4,7 @@
 DIR= /var/www/html/accntg
 
 FILES= accounts.php \
+	accntg_functions.php \
 	Common.php \
 	balance_sheet.php \
 	debit_credit_ck.php \
@@ -14,7 +15,6 @@ FILES= accounts.php \
 	payrate.php \
 	styles.css \
 	timecard.php \
-	timecard_functions.php \
 	timeclock.jpg \
 	transactions.php
 
