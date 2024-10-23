@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>TimeCard</title>
+	<title>Timecard</title>
 	<link rel="stylesheet" href="styles.css">
 
 	<style>
@@ -34,6 +34,32 @@
 		font-size: 16px;
 	}
 	</style>
+
+	<script>
+		// function to programmatically set the employee selection in the dropdown
+		function setSelection() {
+			// Get the value from the input field
+			let inputValue = document.getElementById('empNo').value;
+
+			// Get the select element
+			let selectElement = document.getElementById('emp');
+
+			// loop through the options in the select element
+			for (let i = 0; i < selectElement.options.length; i++) {
+				// If an option matches the input value, sleect it
+				if (selectElement.options[i].value === inputValue) {
+					selectElement.selectedIndex = i;
+					break;
+				}
+			}
+		}
+
+		// Add an event listener for when the user finished typing in the input field
+		window.onload = function() {
+			document.getElementById('empNo').addEventListener('input', setSelection);
+		}
+
+	</script>
 </head>
 <body>
 
@@ -41,19 +67,20 @@
 session_start();
 require_once('DBC.php');
 
-$emp = $empid = $week = "";
-$empErr = $empidErr = $weekErr = "";
+$emp = $empNo = $week = "";
+$empErr = $weekErr = "";
 
 // Validate input values
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
+
+	$empNo = test_input($_POST['empNo']);
+	if (!preg_match("/^[0-9]*$/",$empNo)) {
+		$empNoErr = "Only numbers allowed";
+	}
+
 	$emp = test_input($_POST['emp']);
 	if (!preg_match("/^[0-9]*$/", $emp)) {
 		$empErr = "Only letters, dash and single quote allowed";
-	}
-
-	$empid = test_input($_POST['empid']);
-	if (!preg_match("/^[0-9]*$/",$empid)) {
-		$empidErr = "Only numbers allowed";
 	}
 
 	$week = test_input($_POST['week']);
@@ -91,9 +118,15 @@ function test_input($data) {
 	<div class="item2" style="text-align:left">
 		<p style="margin-left: 10px"><span class="error">* required field</span></p>
 		  <span style="margin-left:10px">
+		  	<label for="empNo">Employee #:</label>
+		  	<input type="text" name="empNo" id="empNo" style="width:60px;" placeholder="Set by #"></input>
+		  </span>
+		  <br><br>
+
+		  <span style="margin-left:10px">
 		  	 <label for="emp">Employee:</label>
 		 	 <select name="emp" id="emp" required>
-			 	<?php
+			 <?php
 				require_once 'accntg_functions.php';
 
         		$connection = db_connect();
@@ -114,15 +147,12 @@ function test_input($data) {
         		} else {
             		alert("Connection failed");
         		}
-				?>
+			 ?>
 			 </select>
 	      </span>
 		  <span class="error">* <?php echo $empErr;?></span>
 		  <br><br>
 
-		  <span style="margin-left:10px">Emplyee #: <input type="text" name="empid" style="width:60px;" required></span>
-		  <span class="error">* <?php echo $empidErr;?></span>
-		  <br><br>
 	</div>
 	<div class="item3">
 		<img src="timeclock.jpg" width="300" height="300" alt="Time Clock">
@@ -274,11 +304,10 @@ for (k = 0; k < counter; k++) {
 
 </script>
 
-
 <?php
 echo "<h2>Your input</h2>";
+echo "EmpNo: " . $empNo . "<br>";
 echo "Employee: " . $emp . "<br>";
-echo "EmpId: " . $empid . "<br>";
 echo "Week: " . $week . "<br>";
 echo "rows: " . $rows . "<br>";
 echo "Accnt array: <br>";
