@@ -80,8 +80,8 @@
 session_start();
 require_once('DBC.php');
 
-$emp = $empNo = $week = "";
-$empErr = $weekErr = "";
+$emp = $empNo = $date = "";
+$empErr = "";
 
 // Validate input values
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -96,15 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 		$empErr = "Only letters, dash and single quote allowed";
 	}
 
-	$week = test_input($_POST['week']);
-	if (!preg_match("/^[0-9]*$/",$week)) {
-		$weekErr = "Only numbers allowed";
-	} else {
-		if ($week > 52) {
-			$weekErr = "Only 52 weeks in a year";
-		}
-    }
-
+	$date = $_POST["date"];
 	$rows = $_POST["rowCountInput"];
 	$accnt = $_POST["accnt"];
 	$desc = $_POST["desc"];
@@ -127,7 +119,7 @@ function test_input($data) {
 
 <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="post">
 <div class="grid-container">
-	<div class="item1"><h2>Weekly Time Card</h2></div>
+	<div class="item1"><h2>Time Card</h2></div>
 	<div class="item2" style="text-align:left">
 		<p style="margin-left: 10px"><span class="error">* required field</span></p>
 		  <span style="margin-left:10px">
@@ -171,14 +163,13 @@ function test_input($data) {
 		<img src="timeclock.jpg" width="300" height="300" alt="Time Clock">
 	</div>
 	<div class="item4" style="text-align:center">
-		<h3>Week Number</h3>
-		<input type="text" name="week" size="2" required>
-		<span class="error">* <?php echo $weekErr;?></span>
+		<h3>Pay Period</h3>
+		<input type="date" name="date" id="date" required>
 		<br><br>
 		<h3>Ajust row count</h3>
 		<div>
 			<button type="button" id="decrement">-</button>
-			<input type="text" id="rowCountInput" name="rowCountInput" value="6" min="1" max="10" style="width:50px">
+			<input type="text" id="rowCountInput" name="rowCountInput" value="4" min="1" max="10" style="width:50px">
 			<button type="button" id="increment">+</button>
 		</div>
 	</div>
@@ -279,7 +270,7 @@ function deleteRow() {
 }
 
 <!-- Row count selector -->
-let counter = 6;
+let counter = 4;
 
 function increment() {
   counter++;
@@ -321,7 +312,7 @@ for (k = 0; k < counter; k++) {
 echo "<h2>Your input</h2>";
 echo "EmpNo: " . $empNo . "<br>";
 echo "Employee: " . $emp . "<br>";
-echo "Week: " . $week . "<br>";
+echo "Date: " . $date . "<br>";
 echo "rows: " . $rows . "<br>";
 echo "Accnt array: <br>";
 echo '<pre>'; print_r($accnt); echo '</pre>';
