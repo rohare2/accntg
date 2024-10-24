@@ -54,9 +54,22 @@
 			}
 		}
 
+		// Function to programatically set the employee number based upon the user selection
+		function numSelection() {
+			// Get the value from the employee select field
+			let selectValue = document.getElementById('emp').value;
+
+			// Get the input element
+			let inputElement = document.getElementById('empNo');
+
+			// Set empNo to value of select field
+			inputElement.value = selectValue;
+		}
+
 		// Add an event listener for when the user finished typing in the input field
 		window.onload = function() {
 			document.getElementById('empNo').addEventListener('input', setSelection);
+			document.getElementById('emp').addEventListener('input', numSelection);
 		}
 
 	</script>
