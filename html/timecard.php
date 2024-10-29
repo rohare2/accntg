@@ -82,6 +82,7 @@ require_once('DBC.php');
 
 $emp = $empNo = $date = "";
 $empErr = "";
+$total = 0;
 
 // Validate input values
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -122,14 +123,15 @@ function test_input($data) {
 	<div class="item1"><h2>Time Card</h2></div>
 	<div class="item2" style="text-align:left">
 		<p style="margin-left: 10px"><span class="error">* required field</span></p>
-		  <span style="margin-left:10px">
-		  	<label for="empNo">Employee #:</label>
-		  	<input type="text" name="empNo" id="empNo" style="width:60px;" placeholder="Set by #"></input>
-		  </span>
-		  <br><br>
+		<h2 style="margin-left:10px">Employee:</h2>
+		<span style="margin-left:10px">
+		  	<label for="empNo">Enter by #:</label>
+		  	<input type="text" name="empNo" id="empNo" required style="width:60px;margin-left:10px">
+			<p style="margin-left:30px">or</p>
+		</span>
 
 		  <span style="margin-left:10px">
-		  	 <label for="emp">Employee:</label>
+		  	 <label for="emp">Email:</label>
 		 	 <select name="emp" id="emp" required>
 			 <?php
 				require_once 'accntg_functions.php';
@@ -195,7 +197,7 @@ function test_input($data) {
 	</div>
 	<div class="item6">
 		<p><h3>Total Hours</h3></p>
-		40
+		<input type="text" name="total" id="total" style="width:20px">
 	</div>
 	<div class=item7>
 		<button type="submit">Submit</button>
@@ -332,6 +334,7 @@ echo "Fri array: <br>";
 echo '<pre>'; print_r($fri); echo '</pre>';
 echo "Sat array: <br>";
 echo '<pre>'; print_r($sat); echo '</pre>';
+echo "Total Hours: " . $total . "<br>";
 ?>
 
 </body>
